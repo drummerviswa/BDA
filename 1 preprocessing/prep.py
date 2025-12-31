@@ -1,0 +1,20 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+t_df = pd.read_csv('../dataset/titanic.csv')
+print("Dataset before Preprocessing")
+print(t_df.head())
+print("Count of Null values in each column")
+print(t_df.isna().sum())
+print("After filling")
+t_df['Age'] = t_df['Age'].fillna(t_df['Age'].median())
+t_df['Embarked'] = t_df['Embarked'].fillna(t_df['Embarked'].mode()[0])
+encoder = LabelEncoder()
+print(t_df.isna().sum())
+t_df['Sex'] = encoder.fit_transform(t_df['Sex'])
+t_df['Embarked'] = encoder.fit_transform(t_df['Embarked'])
+print(t_df.head())
+scale_f = ['Age','Fare']
+std_s = StandardScaler()
+t_df[scale_f] = std_s.fit_transform(t_df[scale_f])
+print("Final after preprocessing")
+print(t_df.head())
